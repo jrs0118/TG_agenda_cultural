@@ -3,29 +3,46 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Evento extends Model
 {
-    //
     use HasFactory;
 
-    // Nombre de la tabla (opcional si sigue la convención)
+    // Mantenemos 'evento' en singular como tú lo tienes
     protected $table = 'evento';
 
-    // Campos que se pueden asignar masivamente
+    protected $primaryKey = 'id_evento';
+
+    // ¡CORREGIDO! Los campos fillable deben coincidir con la BD
     protected $fillable = [
-        'nombre de evento',
+        'nombre_evento',  // Sin espacios
         'descripcion',
         'fecha',
         'hora',
-        'categoria',
-        'ubicacion',
-        'usuario'
-
+        'id_categoria',   // Así se llama en la BD
+        'id_ubicacion',   // Así se llama en la BD
+        'id_usuario'      // Así se llama en la BD
     ];
 
+    protected $casts = [
+        'fecha' => 'date',
+        'hora' => 'datetime:H:i:s'
+    ];
 
+    // Relaciones
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class, 'id_categoria', 'id_categoria');
+    }
 
+    public function ubicacion()
+    {
+        return $this->belongsTo(Ubicacion::class, 'id_ubicacion', 'id_ubicacion');
+    }
 
-
+    public function usuario()
+    {
+        return $this->belongsTo(User::class, 'id_usuario', 'id');
+    }
 }

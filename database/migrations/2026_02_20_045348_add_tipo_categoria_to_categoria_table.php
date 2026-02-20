@@ -6,11 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::create('categoria', function (Blueprint $table) {
-            $table->id('id_categoria');
-            $table->string('nombre_categoria', 100);
+        Schema::table('categoria', function (Blueprint $table) {
             $table->enum('tipo_categoria', [
                 'Música',
                 'Danza',
@@ -18,13 +19,17 @@ return new class extends Migration
                 'Audiovisuales',
                 'Teatro',
                 'Otro'
-            ])->default('Otro'); // ← NUEVO CAMPO
-            $table->timestamps();
+            ])->default('Otro')->after('nombre_categoria'); // Agrega después de nombre_categoria
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists('categoria');
+        Schema::table('categoria', function (Blueprint $table) {
+            $table->dropColumn('tipo_categoria');
+        });
     }
 };

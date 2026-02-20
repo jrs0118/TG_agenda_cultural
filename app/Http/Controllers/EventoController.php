@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categoria;
+use App\Models\Ubicacion;
+use App\Models\Evento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EventoController extends Controller
 {
@@ -11,7 +15,12 @@ class EventoController extends Controller
      */
     public function index()
     {
-        //
+        $eventos = Evento::with(['categoria', 'ubicacion', 'usuario'])
+                        ->orderBy('fecha', 'desc')
+                        ->paginate(10);
+        
+        // Cambiado de 'eventos.index' a 'evento.index'
+        return view('evento.index', compact('eventos'));
     }
 
     /**
@@ -19,7 +28,11 @@ class EventoController extends Controller
      */
     public function create()
     {
-        //
+        $categorias = Categoria::all();
+        $ubicaciones = Ubicacion::all();
+        
+        // Cambiado de 'eventos.create' a 'evento.create'
+        return view('evento.create', compact('categorias', 'ubicaciones'));
     }
 
     /**
@@ -27,7 +40,23 @@ class EventoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nombre_evento' => 'required|string|max:100',
+            'descripcion' => 'nullable|string',
+            'fecha' => 'required|date',
+            'hora' => 'required',
+            'id_categoria' => 'required|exists:categoria,id_categoria',
+            'id_ubicacion' => 'required|exists:ubicacion,id_ubicacion',
+        ]);
+
+        // Agregar el usuario autenticado
+        $validated['id_usuario'] = Auth::id();
+
+        // Crear el evento
+        Evento::create($validated);
+
+        return redirect()->route('eventos.index')
+            ->with('success', 'Evento creado exitosamente.');
     }
 
     /**
@@ -35,7 +64,11 @@ class EventoController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $evento = Evento::with(['categoria', 'ubicacion', 'usuario'])
+                        ->findOrFail($id);
+        
+        // Cambiado de 'eventos.show' a 'evento.show'
+        return view('evento.show', compact('evento'));
     }
 
     /**
@@ -43,7 +76,12 @@ class EventoController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $evento = Evento::findOrFail($id);
+        $categorias = Categoria::all();
+        $ubicaciones = Ubicacion::all();
+        
+        // Cambiado de 'eventos.edit' a 'evento.edit'
+        return view('evento.edit', compact('evento', 'categorias', 'ubicaciones'));
     }
 
     /**
@@ -51,7 +89,21 @@ class EventoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $evento = Evento::findOrFail($id);
+        
+        $validated = $request->validate([
+            'nombre_evento' => 'required|string|max:100',
+            'descripcion' => 'nullable|string',
+            'fecha' => 'required|date',
+            'hora' => 'required',
+            'id_categoria' => 'required|exists:categoria,id_categoria',
+            'id_ubicacion' => 'required|exists:ubicacion,id_ubicacion',
+        ]);
+
+        $evento->update($validated);
+
+        return redirect()->route('eventos.show', $evento->id_evento)
+            ->with('success', 'Evento actualizado exitosamente.');
     }
 
     /**
@@ -59,6 +111,10 @@ class EventoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $evento = Evento::findOrFail($id);
+        $evento->delete();
+
+        return redirect()->route('eventos.index')
+            ->with('success', 'Evento eliminado exitosamente.');
     }
 }

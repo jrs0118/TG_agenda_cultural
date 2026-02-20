@@ -3,20 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Ubicacion extends Model
 {
     use HasFactory;
 
-    // Nombre de la tabla (opcional si sigue la convención)
     protected $table = 'ubicacion';
-
-    // Campos que se pueden asignar masivamente
+    protected $primaryKey = 'id_ubicacion';
+    
     protected $fillable = [
-        'nombre',
+        'nombre_lugar',
         'direccion',
         'ciudad',
-        'pais',
-       ];
+        'capacidad'
+    ];
 }
-
