@@ -103,27 +103,24 @@
                 @enderror
             </div>
 
-            <!-- Ubicación (SELECT) -->
+            <!-- Ubicación CORREGIR 
             <div>
-                <label for="id_ubicacion" class="block text-sm font-medium text-gray-700 mb-1">
-                    Ubicación *
+                <label for="ubicacion" class="block text-sm font-medium text-gray-700 mb-1">
+                    Ubicación
                 </label>
-                <select id="id_ubicacion"
-                    name="id_ubicacion"
-                    class="w-full border rounded p-2 @error('id_ubicacion') border-red-500 @enderror"
-                    required>
-                    <option value="">Selecciona una ubicación</option>
-                    @foreach($ubicaciones as $ubicacion)
-                    <option value="{{ $ubicacion->id_ubicacion }}"
-                        {{ old('id_ubicacion') == $ubicacion->id_ubicacion ? 'selected' : '' }}>
-                        {{ $ubicacion->nombre_lugar }} - {{ $ubicacion->ciudad ?? '' }}
-                    </option>
-                    @endforeach
-                </select>
-                @error('id_ubicacion')
+
+                <input 
+                    type="text"
+                    id="ubicacion"
+                    name="ubicacion"
+                    value="{{ old('ubicacion') }}"
+                    class="w-full border rounded p-2 @error('ubicacion') border-red-500 @enderror"
+                    placeholder="Escribe la ubicación del evento">
+
+                @error('ubicacion')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
-            </div>
+            </div>-->
 
             <!-- Botones -->
             <div class="flex space-x-4 pt-4">

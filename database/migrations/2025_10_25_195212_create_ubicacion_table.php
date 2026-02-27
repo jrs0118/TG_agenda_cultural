@@ -17,7 +17,7 @@ return new class extends Migration
         });*/
 
         Schema::create('ubicacion', function (Blueprint $table) {
-            $table->id();
+            $table->id('id_ubicacion'); // ← CAMBIADO de id() a id('id_ubicacion')
             $table->string('direccion')->nullable();
             $table->string('comuna', 50)->nullable();
             $table->string('tipo', 50)->nullable(); 

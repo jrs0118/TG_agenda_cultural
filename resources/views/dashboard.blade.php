@@ -12,7 +12,7 @@
                       hover:bg-blue-700 transition shadow-lg">
 
                 <div class="text-center">
-                    <h2 class="text-xl font-bold text-black">Crear Evento</h2>
+                    <h2 class="text-xl font-bold text-black">Gestión de Eventos</h2>
                     <p class="text-sm mt-2 text-black">Registrar nuevo evento cultural</p>
                 </div>
 
@@ -33,7 +33,7 @@
 
         </div>
 
-        <!-- SECCIÓN CATEGORÍAS (solo un botón) -->
+        <!-- SECCIÓN CATEGORÍAS -->
         <div class="grid auto-rows-min gap-6 md:grid-cols-1 mt-6">
             <!-- Crear Categoría -->
             <a href="{{ route('categorias.create') }}"
@@ -42,7 +42,7 @@
                       hover:bg-purple-700 transition shadow-lg">
 
                 <div class="text-center">
-                    <h2 class="text-xl font-bold text-black">Crear Categoría</h2>
+                    <h2 class="text-xl font-bold text-black">Gestión de categorias</h2>
                     <p class="text-sm mt-2 text-black">Agregar nueva categoría</p>
                 </div>
 

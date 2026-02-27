@@ -19,7 +19,7 @@ class EventoController extends Controller
                         ->orderBy('fecha', 'desc')
                         ->paginate(10);
         
-        // Cambiado de 'eventos.index' a 'evento.index'
+        // Cambiado de 'eventos.index' 
         return view('evento.index', compact('eventos'));
     }
 
@@ -31,7 +31,6 @@ class EventoController extends Controller
         $categorias = Categoria::all();
         $ubicaciones = Ubicacion::all();
         
-        // Cambiado de 'eventos.create' a 'evento.create'
         return view('evento.create', compact('categorias', 'ubicaciones'));
     }
 

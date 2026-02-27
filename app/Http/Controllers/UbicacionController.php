@@ -1,51 +1,50 @@
 <?php
 
 namespace App\Http\Controllers;
-// Model de Ubicaciones
+
 use App\Models\Ubicacion;
 use Illuminate\Http\Request;
 
 class UbicacionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
+        $ubicaciones = Ubicacion::all();
         
-        // 1. Obtener todos los registros del modelo Ubicacion
-             $ubicaciones = Ubicacion::all();
-
-        // 2. Retornar la vista 'ubicaciones.index' y pasarle las ubicaciones
-            return view('ubicaciones.index', [
-            'ubicaciones' => $ubicaciones
-        ]);
-
-
+        return view('ubicacion.index', compact('ubicaciones'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        //
+        return view('ubicacion.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'direccion' => 'nullable|string|max:255',
+            'comuna' => 'nullable|string|max:50',
+            'tipo' => 'nullable|string|max:50|in:oficina,bodega,auditorio,teatro,aire_libre,otro',
+            'ciudad' => 'nullable|string|max:100',
+            'departamento' => 'nullable|string|max:100',
+            'pais' => 'nullable|string|max:100',
+            'observaciones' => 'nullable|string',
+        ]);
+
+        Ubicacion::create($validated);
+
+        return redirect()->route('ubicaciones.index')
+            ->with('success', 'Ubicación creada exitosamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(string $id)
     {
-        //
+        $ubicacion = Ubicacion::with('eventos')->findOrFail($id);
+        return view('ubicacion.show', compact('ubicacion'));
     }
 
     /**
@@ -53,22 +52,44 @@ class UbicacionController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $ubicacion = Ubicacion::findOrFail($id);
+        return view('ubicacion.edit', compact('ubicacion'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
-        //
+        $ubicacion = Ubicacion::findOrFail($id);
+        
+        $validated = $request->validate([
+            'direccion' => 'nullable|string|max:255',
+            'comuna' => 'nullable|string|max:50',
+            'tipo' => 'nullable|string|max:50|in:oficina,bodega,auditorio,teatro,aire_libre,otro',
+            'ciudad' => 'nullable|string|max:100',
+            'departamento' => 'nullable|string|max:100',
+            'pais' => 'nullable|string|max:100',
+            'observaciones' => 'nullable|string',
+        ]);
+
+        $ubicacion->update($validated);
+
+        return redirect()->route('ubicaciones.show', $ubicacion->id_ubicacion)
+            ->with('success', 'Ubicación actualizada exitosamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
-        //
+        $ubicacion = Ubicacion::findOrFail($id);
+        
+        if ($ubicacion->eventos()->count() > 0) {
+            return redirect()->route('ubicaciones.index')
+                ->with('error', 'No se puede eliminar la ubicación porque tiene eventos asociados.');
+        }
+        
+        $ubicacion->delete();
+
+        return redirect()->route('ubicaciones.index')
+            ->with('success', 'Ubicación eliminada exitosamente.');
     }
 }
