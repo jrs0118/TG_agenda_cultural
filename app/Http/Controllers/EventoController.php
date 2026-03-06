@@ -5,22 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Evento;
 use App\Models\Categoria;
 use App\Models\Ubicacion;
+use App\Models\User;  
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class EventoController extends Controller
 {
-    /**
-     * Constructor para aplicar middleware
-     */
+
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $eventos = Evento::with(['categoria', 'ubicacion', 'usuario'])
@@ -30,9 +27,7 @@ class EventoController extends Controller
         return view('eventos.index', compact('eventos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         $categorias = Categoria::all();
@@ -41,9 +36,7 @@ class EventoController extends Controller
         return view('eventos.create', compact('categorias', 'ubicaciones'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -55,17 +48,14 @@ class EventoController extends Controller
             'id_ubicacion' => 'required|exists:ubicaciones,id_ubicacion',
         ]);
 
-        $validated['id_usuario'] = Auth::id();
+    $validated['id_usuario'] = Auth::id();
 
-        Evento::create($validated);
+    Evento::create($validated);
 
         return redirect()->route('eventos.index')
             ->with('success', 'Evento creado exitosamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $evento = Evento::with(['categoria', 'ubicacion', 'usuario'])
@@ -74,14 +64,12 @@ class EventoController extends Controller
         return view('eventos.show', compact('evento'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
         $evento = Evento::findOrFail($id);
         
-        // Verificar permisos (solo el creador o admin pueden editar)
+        // Verificar permisos
         if (Auth::id() !== $evento->id_usuario && !Auth::user()->esAdministrador()) {
             return redirect()->route('eventos.index')
                 ->with('error', 'No tienes permiso para editar este evento.');
@@ -93,9 +81,7 @@ class EventoController extends Controller
         return view('eventos.edit', compact('evento', 'categorias', 'ubicaciones'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
         $evento = Evento::findOrFail($id);
@@ -121,9 +107,7 @@ class EventoController extends Controller
             ->with('success', 'Evento actualizado exitosamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
         $evento = Evento::findOrFail($id);
