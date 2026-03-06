@@ -2,14 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Evento;
 use App\Models\Categoria;
 use App\Models\Ubicacion;
-use App\Models\Evento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class EventoController extends Controller
 {
+    /**
+     * Constructor para aplicar middleware
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -17,10 +25,9 @@ class EventoController extends Controller
     {
         $eventos = Evento::with(['categoria', 'ubicacion', 'usuario'])
                         ->orderBy('fecha', 'desc')
-                        ->paginate(10);
+                        ->paginate(15);
         
-        // Cambiado de 'eventos.index' 
-        return view('evento.index', compact('eventos'));
+        return view('eventos.index', compact('eventos'));
     }
 
     /**
@@ -31,7 +38,7 @@ class EventoController extends Controller
         $categorias = Categoria::all();
         $ubicaciones = Ubicacion::all();
         
-        return view('evento.create', compact('categorias', 'ubicaciones'));
+        return view('eventos.create', compact('categorias', 'ubicaciones'));
     }
 
     /**
@@ -42,16 +49,14 @@ class EventoController extends Controller
         $validated = $request->validate([
             'nombre_evento' => 'required|string|max:100',
             'descripcion' => 'nullable|string',
-            'fecha' => 'required|date',
+            'fecha' => 'required|date|after_or_equal:today',
             'hora' => 'required',
-            'id_categoria' => 'required|exists:categoria,id_categoria',
-            'id_ubicacion' => 'required|exists:ubicacion,id_ubicacion',
+            'id_categoria' => 'required|exists:categorias,id_categoria',
+            'id_ubicacion' => 'required|exists:ubicaciones,id_ubicacion',
         ]);
 
-        // Agregar el usuario autenticado
         $validated['id_usuario'] = Auth::id();
 
-        // Crear el evento
         Evento::create($validated);
 
         return redirect()->route('eventos.index')
@@ -66,8 +71,7 @@ class EventoController extends Controller
         $evento = Evento::with(['categoria', 'ubicacion', 'usuario'])
                         ->findOrFail($id);
         
-        // Cambiado de 'eventos.show' a 'evento.show'
-        return view('evento.show', compact('evento'));
+        return view('eventos.show', compact('evento'));
     }
 
     /**
@@ -76,11 +80,17 @@ class EventoController extends Controller
     public function edit(string $id)
     {
         $evento = Evento::findOrFail($id);
+        
+        // Verificar permisos (solo el creador o admin pueden editar)
+        if (Auth::id() !== $evento->id_usuario && !Auth::user()->esAdministrador()) {
+            return redirect()->route('eventos.index')
+                ->with('error', 'No tienes permiso para editar este evento.');
+        }
+        
         $categorias = Categoria::all();
         $ubicaciones = Ubicacion::all();
         
-        // Cambiado de 'eventos.edit' a 'evento.edit'
-        return view('evento.edit', compact('evento', 'categorias', 'ubicaciones'));
+        return view('eventos.edit', compact('evento', 'categorias', 'ubicaciones'));
     }
 
     /**
@@ -90,13 +100,19 @@ class EventoController extends Controller
     {
         $evento = Evento::findOrFail($id);
         
+        // Verificar permisos
+        if (Auth::id() !== $evento->id_usuario && !Auth::user()->esAdministrador()) {
+            return redirect()->route('eventos.index')
+                ->with('error', 'No tienes permiso para actualizar este evento.');
+        }
+        
         $validated = $request->validate([
             'nombre_evento' => 'required|string|max:100',
             'descripcion' => 'nullable|string',
             'fecha' => 'required|date',
             'hora' => 'required',
-            'id_categoria' => 'required|exists:categoria,id_categoria',
-            'id_ubicacion' => 'required|exists:ubicacion,id_ubicacion',
+            'id_categoria' => 'required|exists:categorias,id_categoria',
+            'id_ubicacion' => 'required|exists:ubicaciones,id_ubicacion',
         ]);
 
         $evento->update($validated);
@@ -111,6 +127,13 @@ class EventoController extends Controller
     public function destroy(string $id)
     {
         $evento = Evento::findOrFail($id);
+        
+        // Verificar permisos
+        if (Auth::id() !== $evento->id_usuario && !Auth::user()->esAdministrador()) {
+            return redirect()->route('eventos.index')
+                ->with('error', 'No tienes permiso para eliminar este evento.');
+        }
+        
         $evento->delete();
 
         return redirect()->route('eventos.index')

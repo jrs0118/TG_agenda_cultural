@@ -9,20 +9,28 @@ class Categoria extends Model
 {
     use HasFactory;
 
-    protected $table = 'categoria';
+    protected $table = 'categorias';
     protected $primaryKey = 'id_categoria';
     
     protected $fillable = [
         'nombre_categoria',
-        'tipo_categoria' // ← NUEVO CAMPO
-    ];
-    
-    protected $casts = [
-        'tipo_categoria' => 'string'
+        'descripcion'
     ];
 
+    /**
+     * Relación con Eventos (1:N)
+     * Una categoría puede tener muchos eventos
+     */
     public function eventos()
     {
         return $this->hasMany(Evento::class, 'id_categoria', 'id_categoria');
+    }
+
+    /**
+     * Scope para buscar por nombre
+     */
+    public function scopeNombre($query, $nombre)
+    {
+        return $query->where('nombre_categoria', 'like', "%{$nombre}%");
     }
 }

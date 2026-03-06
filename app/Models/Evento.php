@@ -9,20 +9,17 @@ class Evento extends Model
 {
     use HasFactory;
 
-    // Mantenemos 'evento' en singular como tú lo tienes
-    protected $table = 'evento';
-
+    protected $table = 'eventos';
     protected $primaryKey = 'id_evento';
-
-    // ¡CORREGIDO! Los campos fillable deben coincidir con la BD
+    
     protected $fillable = [
-        'nombre_evento',  // Sin espacios
+        'nombre_evento',
         'descripcion',
         'fecha',
         'hora',
-        'id_categoria',   // Así se llama en la BD
-        'id_ubicacion',   // Así se llama en la BD
-        'id_usuario'      // Así se llama en la BD
+        'id_categoria',
+        'id_ubicacion',
+        'id_usuario'
     ];
 
     protected $casts = [
@@ -30,19 +27,69 @@ class Evento extends Model
         'hora' => 'datetime:H:i:s'
     ];
 
-    // Relaciones
+    /**
+     * Relación con Categoría (N:1)
+     */
     public function categoria()
     {
         return $this->belongsTo(Categoria::class, 'id_categoria', 'id_categoria');
     }
 
+    /**
+     * Relación con Ubicación (N:1)
+     */
     public function ubicacion()
     {
         return $this->belongsTo(Ubicacion::class, 'id_ubicacion', 'id_ubicacion');
     }
 
+    /**
+     * Relación con Usuario (N:1)
+     */
     public function usuario()
     {
         return $this->belongsTo(User::class, 'id_usuario', 'id');
+    }
+
+    /**
+     * Scope para eventos futuros
+     */
+    public function scopeFuturos($query)
+    {
+        return $query->where('fecha', '>=', now()->toDateString())
+                     ->orderBy('fecha', 'asc')
+                     ->orderBy('hora', 'asc');
+    }
+
+    /**
+     * Scope para eventos por categoría
+     */
+    public function scopePorCategoria($query, $categoriaId)
+    {
+        return $query->where('id_categoria', $categoriaId);
+    }
+
+    /**
+     * Scope para eventos por ubicación
+     */
+    public function scopePorUbicacion($query, $ubicacionId)
+    {
+        return $query->where('id_ubicacion', $ubicacionId);
+    }
+
+    /**
+     * Obtener fecha formateada
+     */
+    public function getFechaFormateadaAttribute()
+    {
+        return $this->fecha->format('d/m/Y');
+    }
+
+    /**
+     * Obtener hora formateada
+     */
+    public function getHoraFormateadaAttribute()
+    {
+        return $this->hora->format('g:i A');
     }
 }

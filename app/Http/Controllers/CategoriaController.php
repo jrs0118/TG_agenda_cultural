@@ -4,25 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoriaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        $categorias = Categoria::all();
-        return view('categoria.index', compact('categorias'));
+        $categorias = Categoria::withCount('eventos')->get();
+        return view('categorias.index', compact('categorias'));
     }
 
     public function create()
     {
-        return view('categoria.create');
+        return view('categorias.create');
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nombre_categoria' => 'required|string|max:100|unique:categoria,nombre_categoria',
-            'tipo_categoria' => 'required|in:Música,Danza,Artes Plásticas,Audiovisuales,Teatro,Otro',
+            'nombre_categoria' => 'required|string|max:100|unique:categorias',
+            'descripcion' => 'nullable|string',
         ]);
 
         Categoria::create($validated);
@@ -31,10 +37,16 @@ class CategoriaController extends Controller
             ->with('success', 'Categoría creada exitosamente.');
     }
 
+    public function show(string $id)
+    {
+        $categoria = Categoria::with('eventos')->findOrFail($id);
+        return view('categorias.show', compact('categoria'));
+    }
+
     public function edit(string $id)
     {
         $categoria = Categoria::findOrFail($id);
-        return view('categoria.edit', compact('categoria'));
+        return view('categorias.edit', compact('categoria'));
     }
 
     public function update(Request $request, string $id)
@@ -42,8 +54,8 @@ class CategoriaController extends Controller
         $categoria = Categoria::findOrFail($id);
         
         $validated = $request->validate([
-            'nombre_categoria' => 'required|string|max:100|unique:categoria,nombre_categoria,' . $id . ',id_categoria',
-            'tipo_categoria' => 'required|in:Música,Danza,Artes Plásticas,Audiovisuales,Teatro,Otro',
+            'nombre_categoria' => 'required|string|max:100|unique:categorias,nombre_categoria,' . $id . ',id_categoria',
+            'descripcion' => 'nullable|string',
         ]);
 
         $categoria->update($validated);

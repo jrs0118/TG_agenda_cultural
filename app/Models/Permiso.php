@@ -3,18 +3,31 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Permiso extends Model
 {
+    use HasFactory;
 
-        use HasFactory;
-
-    // Nombre de la tabla (opcional si sigue la convención)
-    protected $table = 'permiso';
-
-    // Campos que se pueden asignar masivamente
+    protected $table = 'permisos';
+    protected $primaryKey = 'id_permiso';
+    
     protected $fillable = [
-        'nombre de permiso'
+        'nombre_permiso',
+        'descripcion'
+    ];
 
-       ];
+    /**
+     * Relación con Roles (N:N)
+     * Un permiso puede estar en muchos roles
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(
+            Rol::class, 
+            'rol_permiso', 
+            'id_permiso', 
+            'id_rol'
+        )->withTimestamps();
+    }
 }

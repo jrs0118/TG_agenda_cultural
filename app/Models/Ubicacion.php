@@ -9,33 +9,40 @@ class Ubicacion extends Model
 {
     use HasFactory;
 
-    protected $table = 'ubicacion';
-    protected $primaryKey = 'id_ubicacion'; 
+    protected $table = 'ubicaciones';
+    protected $primaryKey = 'id_ubicacion';
     
     protected $fillable = [
-        'direccion',      
-        'comuna',         
-        'tipo',           
-        'ciudad',         
-        'departamento',   
-        'pais',           
-        'observaciones'   
+        'nombre_lugar',
+        'direccion',
+        'comuna',
+        'tipo',
+        'ciudad',
+        'departamento',
+        'pais',
+        'observaciones'
     ];
 
-    protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime'
+    protected $attributes = [
+        'ciudad' => 'Medellín',
+        'departamento' => 'Antioquia',
+        'pais' => 'Colombia'
     ];
 
-    /**Una ubicación puede tener muchos eventos*/
+    /**
+     * Relación con Eventos (1:N)
+     * Una ubicación puede tener muchos eventos
+     */
     public function eventos()
     {
         return $this->hasMany(Evento::class, 'id_ubicacion', 'id_ubicacion');
     }
 
-    /**Accesor para obtener nombre completo de la ubicación */
-    public function getNombreCompletoAttribute(): string
+    /**
+     * Obtener dirección completa formateada
+     */
+    public function getDireccionCompletaAttribute()
     {
-        return "{$this->direccion}, {$this->ciudad} - {$this->pais}";
+        return "{$this->direccion}, {$this->comuna}, {$this->ciudad} - {$this->pais}";
     }
 }

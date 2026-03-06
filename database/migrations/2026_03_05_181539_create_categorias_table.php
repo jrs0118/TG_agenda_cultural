@@ -8,23 +8,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('categoria', function (Blueprint $table) {
+        Schema::create('categorias', function (Blueprint $table) {
             $table->id('id_categoria');
             $table->string('nombre_categoria', 100);
-            $table->enum('tipo_categoria', [
-                'Música',
-                'Danza',
-                'Artes Plásticas',
-                'Audiovisuales',
-                'Teatro',
-                'Otro'
-            ])->default('Otro'); // ← NUEVO CAMPO
+            $table->text('descripcion')->nullable();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('categoria');
+        Schema::dropIfExists('categorias');
     }
 };

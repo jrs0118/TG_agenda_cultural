@@ -3,13 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
+use App\Http\Controllers\HomeController;       
 use App\Http\Controllers\UbicacionController;
-use App\Http\Controllers\EventoController;      // Agregado
-use App\Http\Controllers\CategoriaController;   // Agregado
+use App\Http\Controllers\EventoController;
+use App\Http\Controllers\CategoriaController;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -22,10 +21,10 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/password', 'settings.password')->name('user-password.edit');
     Volt::route('settings/appearance', 'settings.appearance')->name('appearance.edit');
 
-    // Rutas de recursos (UNA SOLA VEZ CADA UNA)
+    // CRUDs completos
     Route::resource('ubicaciones', UbicacionController::class);
     Route::resource('eventos', EventoController::class);
-    Route::resource('categorias', CategoriaController::class); // Esta es la que te faltaba
+    Route::resource('categorias', CategoriaController::class);
 
     Volt::route('settings/two-factor', 'settings.two-factor')
         ->middleware(

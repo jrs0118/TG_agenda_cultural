@@ -4,30 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Models\Ubicacion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UbicacionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function index()
     {
-        $ubicaciones = Ubicacion::all();
-        
-        return view('ubicacion.index', compact('ubicaciones'));
+        $ubicaciones = Ubicacion::withCount('eventos')->get();
+        return view('ubicaciones.index', compact('ubicaciones'));
     }
 
 
     public function create()
     {
-        return view('ubicacion.create');
+        return view('ubicaciones.create');
     }
 
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'direccion' => 'nullable|string|max:255',
+            'nombre_lugar' => 'required|string|max:255',
+            'direccion' => 'required|string|max:255',
             'comuna' => 'nullable|string|max:50',
-            'tipo' => 'nullable|string|max:50|in:oficina,bodega,auditorio,teatro,aire_libre,otro',
+            'tipo' => 'nullable|string|max:50',
             'ciudad' => 'nullable|string|max:100',
             'departamento' => 'nullable|string|max:100',
             'pais' => 'nullable|string|max:100',
@@ -44,16 +49,14 @@ class UbicacionController extends Controller
     public function show(string $id)
     {
         $ubicacion = Ubicacion::with('eventos')->findOrFail($id);
-        return view('ubicacion.show', compact('ubicacion'));
+        return view('ubicaciones.show', compact('ubicacion'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
         $ubicacion = Ubicacion::findOrFail($id);
-        return view('ubicacion.edit', compact('ubicacion'));
+        return view('ubicaciones.edit', compact('ubicacion'));
     }
 
 
@@ -62,9 +65,10 @@ class UbicacionController extends Controller
         $ubicacion = Ubicacion::findOrFail($id);
         
         $validated = $request->validate([
-            'direccion' => 'nullable|string|max:255',
+            'nombre_lugar' => 'required|string|max:255',
+            'direccion' => 'required|string|max:255',
             'comuna' => 'nullable|string|max:50',
-            'tipo' => 'nullable|string|max:50|in:oficina,bodega,auditorio,teatro,aire_libre,otro',
+            'tipo' => 'nullable|string|max:50',
             'ciudad' => 'nullable|string|max:100',
             'departamento' => 'nullable|string|max:100',
             'pais' => 'nullable|string|max:100',
@@ -77,7 +81,7 @@ class UbicacionController extends Controller
             ->with('success', 'Ubicación actualizada exitosamente.');
     }
 
-
+    
     public function destroy(string $id)
     {
         $ubicacion = Ubicacion::findOrFail($id);
