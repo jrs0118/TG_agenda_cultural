@@ -17,10 +17,8 @@ class Permiso extends Model
         'descripcion'
     ];
 
-    /**
-     * Relación con Roles (N:N)
-     * Un permiso puede estar en muchos roles
-     */
+    // relación con roles- un permiso puede tener muchos roles
+
     public function roles()
     {
         return $this->belongsToMany(

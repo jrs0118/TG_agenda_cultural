@@ -49,10 +49,10 @@
             <p class="text-gray-600 mt-2">Descubre los mejores eventos culturales en Medellín</p>
         </div>
 
-        <!-- Filtros -->
+
         <div class="bg-white rounded-lg shadow p-6 mb-8">
             <form method="GET" action="{{ route('home') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <!-- Filtro por categoría -->
+                <!-- Filtrar por categoría -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
                     <select name="categoria" class="w-full border rounded-lg p-2">
@@ -66,14 +66,14 @@
                     </select>
                 </div>
 
-                <!-- Filtro por fecha -->
+                <!-- Filtrar por fecha -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
                     <input type="date" name="fecha" value="{{ request('fecha') }}" 
                            class="w-full border rounded-lg p-2">
                 </div>
 
-                <!-- Filtro por ubicación -->
+                <!-- Filtrar por ubicación -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Ubicación</label>
                     <select name="ubicacion" class="w-full border rounded-lg p-2">
@@ -87,7 +87,6 @@
                     </select>
                 </div>
 
-                <!-- Botones -->
                 <div class="flex items-end gap-2">
                     <button type="submit" 
                             class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition flex-1">
@@ -101,7 +100,6 @@
             </form>
         </div>
 
-        <!-- Grid de eventos -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse($eventos as $evento)
                 <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition">
@@ -136,16 +134,16 @@
             @endforelse
         </div>
 
-        <!-- Paginación -->
+
         <div class="mt-8">
             {{ $eventos->links() }}
         </div>
     </main>
 
-    <!-- Footer simple -->
+    
     <footer class="bg-white border-t mt-12 py-6">
         <div class="max-w-7xl mx-auto px-4 text-center text-gray-500">
-            <p>© {{ date('Y') }} Agenda Cultural de Medellín</p>
+            <p>{{ date('Y') }} Agenda Cultural de Medellín</p>
         </div>
     </footer>
 </body>

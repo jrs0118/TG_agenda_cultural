@@ -29,18 +29,14 @@ class Ubicacion extends Model
         'pais' => 'Colombia'
     ];
 
-    /**
-     * Relación con Eventos (1:N)
-     * Una ubicación puede tener muchos eventos
-     */
+    // relación con eventos
+
     public function eventos()
     {
         return $this->hasMany(Evento::class, 'id_ubicacion', 'id_ubicacion');
     }
 
-    /**
-     * Obtener dirección completa formateada
-     */
+
     public function getDireccionCompletaAttribute()
     {
         return "{$this->direccion}, {$this->comuna}, {$this->ciudad} - {$this->pais}";

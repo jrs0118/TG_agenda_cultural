@@ -27,33 +27,28 @@ class Evento extends Model
         'hora' => 'datetime:H:i:s'
     ];
 
-    /**
-     * Relación con Categoría (N:1)
-     */
+    //relación con Categoría 
+  
     public function categoria()
     {
         return $this->belongsTo(Categoria::class, 'id_categoria', 'id_categoria');
     }
 
-    /**
-     * Relación con Ubicación (N:1)
-     */
+    // relación con ubicación
+  
     public function ubicacion()
     {
         return $this->belongsTo(Ubicacion::class, 'id_ubicacion', 'id_ubicacion');
     }
 
-    /**
-     * Relación con Usuario (N:1)
-     */
+    //Relación con Usuario
+  
     public function usuario()
     {
         return $this->belongsTo(User::class, 'id_usuario', 'id');
     }
 
-    /**
-     * Scope para eventos futuros
-     */
+
     public function scopeFuturos($query)
     {
         return $query->where('fecha', '>=', now()->toDateString())
@@ -61,33 +56,25 @@ class Evento extends Model
                      ->orderBy('hora', 'asc');
     }
 
-    /**
-     * Scope para eventos por categoría
-     */
+
     public function scopePorCategoria($query, $categoriaId)
     {
         return $query->where('id_categoria', $categoriaId);
     }
 
-    /**
-     * Scope para eventos por ubicación
-     */
+
     public function scopePorUbicacion($query, $ubicacionId)
     {
         return $query->where('id_ubicacion', $ubicacionId);
     }
 
-    /**
-     * Obtener fecha formateada
-     */
+
     public function getFechaFormateadaAttribute()
     {
         return $this->fecha->format('d/m/Y');
     }
 
-    /**
-     * Obtener hora formateada
-     */
+
     public function getHoraFormateadaAttribute()
     {
         return $this->hora->format('g:i A');

@@ -63,31 +63,21 @@ class User extends Authenticatable
             ->implode('');
     }
 
-    // =============================================
-    // NUEVAS RELACIONES Y MÉTODOS (AGREGAR ABAJO)
-    // =============================================
 
-    /**
-     * Relación con Rol (N:1)
-     * Un usuario pertenece a un rol
-     */
+
+    //un usuario pertenece a un rol
     public function rol()
     {
         return $this->belongsTo(Rol::class, 'id_rol', 'id_rol');
     }
 
-    /**
-     * Relación con Eventos (1:N)
-     * Un usuario puede crear muchos eventos
-     */
+//un usuario puede crear muchos eventos
     public function eventos()
     {
         return $this->hasMany(Evento::class, 'id_usuario', 'id');
     }
 
-    /**
-     * Verificar si el usuario tiene un permiso específico
-     */
+
     public function tienePermiso($nombrePermiso)
     {
         if (!$this->rol) {
@@ -99,17 +89,13 @@ class User extends Authenticatable
             ->exists();
     }
 
-    /**
-     * Verificar si es administrador
-     */
+
     public function esAdministrador()
     {
         return $this->rol && $this->rol->nombre_rol === 'Administrador';
     }
 
-    /**
-     * Obtener nombre del rol (para vistas)
-     */
+
     public function getNombreRolAttribute()
     {
         return $this->rol ? $this->rol->nombre_rol : 'Sin rol';

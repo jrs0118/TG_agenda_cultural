@@ -1,13 +1,8 @@
 <x-layouts.app :title="__('Categorías - Agenda Cultural')">
 
     <div class="container mx-auto px-4 py-8">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-900">Listado de Categorías</h1>
-            <a href="{{ route('categorias.create') }}" 
-               class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition">
-                + Nueva Categoría
-            </a>
-        </div>
+        <!-- Título -->
+        <h1 class="text-2xl font-bold text-gray-900 mb-6">Listado de Categorías</h1>
 
         @if(session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
@@ -22,15 +17,15 @@
         @endif
 
         <!-- Tabla de categorías -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="bg-white rounded-lg shadow overflow-hidden mb-6">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nombre</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Descripción</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total Eventos</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha Creación</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Eventos</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Acciones</th>
                     </tr>
                 </thead>
@@ -42,13 +37,13 @@
                         <td class="px-6 py-4">{{ $categoria->descripcion ?? 'Sin descripción' }}</td>
                         <td class="px-6 py-4">
                             <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">
-                                {{ $categoria->eventos_count ?? $categoria->eventos->count() }} eventos
+                                {{ $categoria->eventos->count() }} eventos
                             </span>
                         </td>
                         <td class="px-6 py-4">{{ $categoria->created_at->format('d/m/Y') }}</td>
-                        <td class="px-6 py-4 space-x-2">
+                        <td class="px-6 py-4">
                             <a href="{{ route('categorias.edit', $categoria->id_categoria) }}" 
-                               class="text-yellow-600 hover:text-yellow-900">Editar</a>
+                               class="text-yellow-600 hover:text-yellow-900 mr-3">Editar</a>
                             <form action="{{ route('categorias.destroy', $categoria->id_categoria) }}" 
                                   method="POST" class="inline">
                                 @csrf
@@ -71,6 +66,29 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- TRES BOTONES INFERIORES - CON BORDES Y COLORES SÓLIDOS -->
+        <div class="flex justify-center space-x-4 mt-6">
+            <!-- Botón 1: Volver al Dashboard (GRIS OSCURO) -->
+            <a href="{{ route('dashboard') }}" 
+               class="inline-block px-6 py-3 bg-gray-700 text-black font-bold rounded-lg hover:bg-gray-800 transition text-center min-w-[170px] border-2 border-gray-800 shadow-lg">
+                VOLVER AL DASHBOARD
+            </a>
+            
+            <!-- Botón 2: Nueva Categoría (MORADO BRILLANTE) -->
+            <a href="{{ route('categorias.create') }}" 
+               class="inline-block px-6 py-3 bg-purple-700 text-black font-bold rounded-lg hover:bg-purple-800 transition text-center min-w-[170px] border-2 border-purple-900 shadow-lg">
+                 NUEVA CATEGORÍA
+            </a>
+            
+            <!-- Botón 3: Nuevo Evento (AZUL BRILLANTE) -->
+            <a href="{{ route('eventos.create') }}" 
+               class="inline-block px-6 py-3 bg-blue-700 text-black font-bold rounded-lg hover:bg-blue-800 transition text-center min-w-[170px] border-2 border-blue-900 shadow-lg">
+                 NUEVO EVENTO
+            </a>
+        </div>
+        
+        
     </div>
 
 </x-layouts.app>
