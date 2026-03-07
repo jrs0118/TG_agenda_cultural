@@ -17,19 +17,13 @@ class Rol extends Model
         'descripcion'
     ];
 
-    /**
-     * Relación con Usuarios (1:N)
-     * Un rol puede tener muchos usuarios
-     */
+    
     public function usuarios()
     {
         return $this->hasMany(User::class, 'id_rol', 'id_rol');
     }
 
-    /**
-     * Relación con Permisos (N:N)
-     * Un rol puede tener muchos permisos
-     */
+
     public function permisos()
     {
         return $this->belongsToMany(

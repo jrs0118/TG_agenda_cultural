@@ -9,9 +9,7 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Muestra la página principal con los eventos públicos
-     */
+
     public function index(Request $request)
     {
         $query = Evento::with(['categoria', 'ubicacion'])

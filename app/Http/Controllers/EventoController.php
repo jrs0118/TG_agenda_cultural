@@ -38,23 +38,23 @@ class EventoController extends Controller
 
     public function store(Request $request)
     {
-        // 1. Validar datos del evento Y ubicación
+
         $validated = $request->validate([
-            // Datos del evento
+
             'nombre_evento' => 'required|string|max:100',
             'descripcion' => 'nullable|string',
             'fecha' => 'required|date|after_or_equal:today',
             'hora' => 'required',
             'id_categoria' => 'required|exists:categorias,id_categoria',
+          
             
-            // Datos de ubicación
             'nombre_lugar' => 'required|string|max:255',
             'direccion' => 'required|string|max:255',
             'comuna' => 'nullable|string|max:50',
             'ciudad' => 'nullable|string|max:100',
         ]);
 
-        // 2. Crear la ubicación
+ 
         $ubicacion = Ubicacion::create([
             'nombre_lugar' => $validated['nombre_lugar'],
             'direccion' => $validated['direccion'],
@@ -65,7 +65,7 @@ class EventoController extends Controller
             'observaciones' => null,
         ]);
 
-        // 3. Crear el evento con el ID de la nueva ubicación
+   
         Evento::create([
             'nombre_evento' => $validated['nombre_evento'],
             'descripcion' => $validated['descripcion'],
@@ -114,8 +114,8 @@ class EventoController extends Controller
                 ->with('error', 'No tienes permiso para actualizar este evento.');
       
                 }
-        
-        // Validar datos del evento (sin ubicación)
+   
+                
         $validated = $request->validate([
             'nombre_evento' => 'required|string|max:100',
             'descripcion' => 'nullable|string',
@@ -141,8 +141,8 @@ class EventoController extends Controller
             return redirect()->route('eventos.index')
                 ->with('error', 'No tienes permiso para eliminar este evento.');
         }
+   
         
-        // Nota: No eliminamos la ubicación para conservar el historial
         $evento->delete();
 
         return redirect()->route('eventos.index')

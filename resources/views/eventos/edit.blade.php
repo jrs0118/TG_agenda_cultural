@@ -103,7 +103,7 @@
                     @enderror
                 </div>
 
-                <!-- Información de la ubicación actual (solo lectura) -->
+                <!-- Información de la ubicación actual-->
                 <div class="bg-gray-50 rounded p-4 mb-6">
                     <h3 class="font-semibold mb-2">Ubicación actual</h3>
                     <p><strong>Lugar:</strong> {{ $evento->ubicacion->nombre_lugar ?? 'N/A' }}</p>
