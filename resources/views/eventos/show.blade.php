@@ -17,6 +17,14 @@
     
             </div>
 
+            <!-- Después del título, antes de los detalles -->
+            @if($evento->imagen)
+            <div class="mb-6">
+                <img src="{{ Storage::url($evento->imagen) }}" 
+                    alt="{{ $evento->nombre_evento }}" 
+                    class="w-full max-h-96 object-cover rounded-lg shadow-lg">
+            </div>
+            @endif
             
             <div class="bg-white rounded-lg shadow overflow-hidden">
                 <div class="p-6">

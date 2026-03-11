@@ -9,10 +9,7 @@ use App\Models\Ubicacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class EventoController extends Controller
-
-
-    {
+class EventoController extends Controller    {
    // public function __construct()
    // {
    //     $this->middleware('auth');
@@ -36,49 +33,52 @@ class EventoController extends Controller
     }
 
 
-    public function store(Request $request)
-    {
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'nombre_evento' => 'required|string|max:100',
+        'descripcion' => 'nullable|string',
+        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // ← NUEVO
+        'fecha' => 'required|date|after_or_equal:today',
+        'hora' => 'required',
+        'id_categoria' => 'required|exists:categorias,id_categoria',
+        'nombre_lugar' => 'required|string|max:255',
+        'direccion' => 'required|string|max:255',
+        'comuna' => 'required|string|max:50',
+        'ciudad' => 'nullable|string|max:100',
+    ]);
 
-        $validated = $request->validate([
-
-            'nombre_evento' => 'required|string|max:100',
-            'descripcion' => 'nullable|string',
-            'fecha' => 'required|date|after_or_equal:today',
-            'hora' => 'required',
-            'id_categoria' => 'required|exists:categorias,id_categoria',
-          
-            
-            'nombre_lugar' => 'required|string|max:255',
-            'direccion' => 'required|string|max:255',
-            'comuna' => 'nullable|string|max:50',
-            'ciudad' => 'nullable|string|max:100',
-        ]);
-
- 
-        $ubicacion = Ubicacion::create([
-            'nombre_lugar' => $validated['nombre_lugar'],
-            'direccion' => $validated['direccion'],
-            'comuna' => $validated['comuna'] ?? null,
-            'ciudad' => $validated['ciudad'] ?? 'Medellín',
-            'departamento' => 'Antioquia',
-            'pais' => 'Colombia',
-            'observaciones' => null,
-        ]);
-
-   
-        Evento::create([
-            'nombre_evento' => $validated['nombre_evento'],
-            'descripcion' => $validated['descripcion'],
-            'fecha' => $validated['fecha'],
-            'hora' => $validated['hora'],
-            'id_categoria' => $validated['id_categoria'],
-            'id_ubicacion' => $ubicacion->id_ubicacion,
-            'id_usuario' => Auth::id(),
-        ]);
-
-        return redirect()->route('eventos.index')
-            ->with('success', 'Evento y ubicación creados exitosamente.');
+    // Subir img
+    if ($request->hasFile('imagen')) {
+        $path = $request->file('imagen')->store('eventos', 'public');
+        $validated['imagen'] = $path;
     }
+
+    // Crear ubicación
+    $ubicacion = Ubicacion::create([
+        'nombre_lugar' => $validated['nombre_lugar'],
+        'direccion' => $validated['direccion'],
+        'comuna' => $validated['comuna'],
+        'ciudad' => $validated['ciudad'] ?? 'Medellín',
+        'departamento' => 'Antioquia',
+        'pais' => 'Colombia',
+    ]);
+
+    // Crear evento
+    Evento::create([
+        'nombre_evento' => $validated['nombre_evento'],
+        'descripcion' => $validated['descripcion'],
+        'imagen' => $validated['imagen'] ?? null,
+        'fecha' => $validated['fecha'],
+        'hora' => $validated['hora'],
+        'id_categoria' => $validated['id_categoria'],
+        'id_ubicacion' => $ubicacion->id_ubicacion,
+        'id_usuario' => Auth::id(),
+    ]);
+
+    return redirect()->route('eventos.index')
+        ->with('success', 'Evento creado exitosamente.');
+}
 
     public function show(string $id)
     {
@@ -105,31 +105,33 @@ class EventoController extends Controller
 
 
     public function update(Request $request, string $id)
-    {
-        $evento = Evento::findOrFail($id);
-      
-        
-        if (Auth::id() !== $evento->id_usuario && !Auth::user()->esAdministrador()) {
-            return redirect()->route('eventos.index')
-                ->with('error', 'No tienes permiso para actualizar este evento.');
-      
-                }
-   
-                
-        $validated = $request->validate([
-            'nombre_evento' => 'required|string|max:100',
-            'descripcion' => 'nullable|string',
-            'fecha' => 'required|date',
-            'hora' => 'required',
-            'id_categoria' => 'required|exists:categorias,id_categoria',
-        
-            ]);
+{
+    $evento = Evento::findOrFail($id);
+    
+    $validated = $request->validate([
+        'nombre_evento' => 'required|string|max:100',
+        'descripcion' => 'nullable|string',
+        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'fecha' => 'required|date',
+        'hora' => 'required',
+        'id_categoria' => 'required|exists:categorias,id_categoria',
+    ]);
 
-        $evento->update($validated);
-
-        return redirect()->route('eventos.show', $evento->id_evento)
-            ->with('success', 'Evento actualizado exitosamente.');
+    // Subir nueva imagen si existe
+    if ($request->hasFile('imagen')) {
+        // Eliminar imagen anterior
+        if ($evento->imagen) {
+            Storage::disk('public')->delete($evento->imagen);
+        }
+        $path = $request->file('imagen')->store('eventos', 'public');
+        $validated['imagen'] = $path;
     }
+
+    $evento->update($validated);
+
+    return redirect()->route('eventos.show', $evento->id_evento)
+        ->with('success', 'Evento actualizado exitosamente.');
+}
 
 
     public function destroy(string $id)

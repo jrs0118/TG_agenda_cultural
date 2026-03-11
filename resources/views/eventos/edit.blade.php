@@ -48,6 +48,32 @@
                     @enderror
                 </div>
 
+                <!-- Campo de imagen con vista previa -->
+                <div class="mb-4">
+                    <label for="imagen" class="block text-sm font-medium text-gray-700 mb-1">
+                        Imagen del evento
+                    </label>
+                    
+                    @if($evento->imagen)
+                    <div class="mb-2">
+                        <p class="text-sm text-gray-600 mb-1">Imagen actual:</p>
+                        <img src="{{ Storage::url($evento->imagen) }}" 
+                            alt="{{ $evento->nombre_evento }}" 
+                            class="w-32 h-32 object-cover rounded border">
+                    </div>
+                    @endif
+                    
+                    <input type="file" 
+                        id="imagen" 
+                        name="imagen" 
+                        accept="image/*"
+                        class="w-full border rounded-lg p-2 @error('imagen') border-red-500 @enderror">
+                    <p class="text-xs text-gray-500 mt-1">Dejar vacío para mantener la imagen actual</p>
+                    @error('imagen')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <!-- Fecha y Hora -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>

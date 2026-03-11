@@ -14,7 +14,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('eventos.store') }}" class="bg-white rounded-lg shadow p-6">
+            <form method="POST" action="{{ route('eventos.store') }}" enctype="multipart/form-data" class="bg-white rounded-lg shadow p-6">
                 @csrf
 
 
@@ -46,6 +46,22 @@
                               rows="3"
                               class="w-full border rounded-lg p-2 @error('descripcion') border-red-500 @enderror">{{ old('descripcion') }}</textarea>
                     @error('descripcion')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Después de la descripción -->
+                <div class="mb-4">
+                    <label for="imagen" class="block text-sm font-medium text-gray-700 mb-1">
+                        Imagen del evento
+                    </label>
+                    <input type="file" 
+                        id="imagen" 
+                        name="imagen" 
+                        accept="image/*"
+                        class="w-full border rounded-lg p-2 @error('imagen') border-red-500 @enderror">
+                    <p class="text-xs text-gray-500 mt-1">Formatos: JPG, PNG, GIF (Máx 2MB)</p>
+                    @error('imagen')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
