@@ -43,13 +43,13 @@
                         <td class="px-6 py-4">{{ $categoria->created_at->format('d/m/Y') }}</td>
                         <td class="px-6 py-4">
                             <a href="{{ route('categorias.edit', $categoria->id_categoria) }}" 
-                               class="text-yellow-600 hover:text-yellow-900 mr-3">Editar</a>
+                               class="inline-flex items-center px-4 py-2 border rounded-lg text-black rounded-lg hover:bg-blue-400 transition text-center min-w-[50px]">Editar</a>
                             <form action="{{ route('categorias.destroy', $categoria->id_categoria) }}" 
                                   method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" 
-                                        class="text-red-600 hover:text-red-900"
+                                        class="inline-flex items-center px-4 py-2 border rounded-lg text-black rounded-lg hover:bg-blue-400 transition text-center min-w-[50px]"
                                         onclick="return confirm('¿Estás seguro de eliminar esta categoría?')">
                                     Eliminar
                                 </button>
@@ -71,20 +71,20 @@
         <div class="flex justify-center space-x-4 mt-6">
             <!-- Botón 1: Volver al Dashboard (GRIS OSCURO) -->
             <a href="{{ route('dashboard') }}" 
-               class="inline-block px-6 py-3 bg-gray-700 text-black font-bold rounded-lg hover:bg-gray-800 transition text-center min-w-[170px] border-2 border-gray-800 shadow-lg">
-                VOLVER AL DASHBOARD
+               class="px-6 py-3 bg-blue-400 text-white rounded-lg hover:bg-blue-400 transition text-center min-w-[180px] font-medium shadow">
+                Volver al Dashboard
             </a>
             
             <!-- Botón 2: Nueva Categoría (MORADO BRILLANTE) -->
             <a href="{{ route('categorias.create') }}" 
-               class="inline-block px-6 py-3 bg-purple-700 text-black font-bold rounded-lg hover:bg-purple-800 transition text-center min-w-[170px] border-2 border-purple-900 shadow-lg">
-                 NUEVA CATEGORÍA
+               class="px-6 py-3 bg-blue-400 text-white rounded-lg hover:bg-blue-400 transition text-center min-w-[180px] font-medium shadow">
+                Nueva Categoría
             </a>
             
             <!-- Botón 3: Nuevo Evento (AZUL BRILLANTE) -->
             <a href="{{ route('eventos.create') }}" 
-               class="inline-block px-6 py-3 bg-blue-700 text-black font-bold rounded-lg hover:bg-blue-800 transition text-center min-w-[170px] border-2 border-blue-900 shadow-lg">
-                 NUEVO EVENTO
+               class="px-6 py-3 bg-blue-400 text-white rounded-lg hover:bg-blue-400 transition text-center min-w-[180px] font-medium shadow">
+                Nuevo Evento
             </a>
         </div>
         

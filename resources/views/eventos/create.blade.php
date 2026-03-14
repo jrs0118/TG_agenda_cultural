@@ -213,11 +213,11 @@
                 <!-- Botones -->
                 <div class="flex justify-center space-x-4 pt-4 border-t">
                     <a href="{{ route('eventos.index') }}" 
-                       class="px-6 py-2 border rounded-lg text-black rounded-lg hover:bg-gray-700 transition text-center min-w-[150px]">
+                       class="px-6 py-2 border rounded-lg text-black rounded-lg hover:bg-blue-400 transition text-center min-w-[150px]">
                         Cancelar
                     </a>
                     <button type="submit" 
-                            class="px-6 py-2 border rounded-lg text-black rounded-lg hover:bg-blue-700 transition text-center min-w-[150px]">
+                            class="px-6 py-2 border rounded-lg text-black rounded-lg hover:bg-blue-400 transition text-center min-w-[150px]">
                         Guardar Evento
                     </button>
                 </div>

@@ -8,11 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UbicacionController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
+    
     public function index()
     {
         $ubicaciones = Ubicacion::withCount('eventos')->get();

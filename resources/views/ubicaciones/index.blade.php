@@ -4,7 +4,7 @@
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold text-gray-900">Listado de Ubicaciones</h1>
             <a href="{{ route('ubicaciones.create') }}" 
-               class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+               class="bg-blue-400 text-white rounded-lg hover:bg-blue-400 transition text-center min-w-[180px] font-medium shadow">
                 + Nueva Ubicación
             </a>
         </div>
@@ -52,13 +52,13 @@
                         </td>
                         <td class="px-6 py-4 space-x-2">
                             <a href="{{ route('ubicaciones.edit', $ubicacion->id_ubicacion) }}" 
-                               class="text-yellow-600 hover:text-yellow-900">Editar</a>
+                               class="inline-flex items-center px-4 py-2 border rounded-lg text-black rounded-lg hover:bg-blue-400 transition text-center min-w-[50px]">Editar</a>
                             <form action="{{ route('ubicaciones.destroy', $ubicacion->id_ubicacion) }}" 
                                   method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" 
-                                        class="text-red-600 hover:text-red-900"
+                                        class="inline-flex items-center px-4 py-2 border rounded-lg text-black rounded-lg hover:bg-blue-400 transition text-center min-w-[50px]"
                                         onclick="return confirm('¿Estás seguro de eliminar esta ubicación?')">
                                     Eliminar
                                 </button>
