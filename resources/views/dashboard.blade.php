@@ -161,7 +161,7 @@
                     <div class="p-4">
                         <p class="text-gray-600 text-sm mb-4">Informes y estadísticas de eventos (próximamente)</p>
                         <button disabled class="w-full bg-gray-400 text-white py-2 rounded cursor-not-allowed text-sm">
-                            <i class="fas fa-clock mr-1"></i>En desarrollo
+                            <i class="fas fa-clock mr-1"></i>PENDIENTE
                         </button>
                     </div>
                 </div>
@@ -174,7 +174,7 @@
                     <div class="p-4">
                         <p class="text-gray-600 text-sm mb-4">Ajustes del sistema (próximamente)</p>
                         <button disabled class="w-full bg-gray-400 text-white py-2 rounded cursor-not-allowed text-sm">
-                            <i class="fas fa-clock mr-1"></i>En desarrollo
+                            <i class="fas fa-clock mr-1"></i>PENDIENTE
                         </button>
                     </div>
                 </div>
@@ -187,7 +187,7 @@
                     <div class="p-4">
                         <p class="text-gray-600 text-sm mb-4">Usuarios, Roles y Permisos (próximamente)</p>
                         <button disabled class="w-full bg-gray-400 text-white py-2 rounded cursor-not-allowed text-sm">
-                            <i class="fas fa-clock mr-1"></i>En desarrollo
+                            <i class="fas fa-clock mr-1"></i>PENDIENTE
                         </button>
                     </div>
                 </div>

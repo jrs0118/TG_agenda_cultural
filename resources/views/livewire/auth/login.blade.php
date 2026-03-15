@@ -32,7 +32,7 @@
                 <i class="fas fa-calendar-alt text-4xl text-[#0033A0]"></i>
             </div>
             <h2 class="text-3xl font-bold text-white">Agenda Cultural</h2>
-            <p class="text-white/80 mt-2">Alcaldía de Medellín</p>
+            <p class="text-white/80 mt-2"></p>
         </div>
 
         <!-- Tarjeta de login -->
