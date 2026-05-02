@@ -20,7 +20,7 @@
             <!-- Después del título, antes de los detalles -->
             @if($evento->imagen)
             <div class="mb-6">
-                <img src="{{ Storage::url($evento->imagen) }}" 
+                <img src="{{ asset('storage/' . $evento->imagen) }}"
                     alt="{{ $evento->nombre_evento }}" 
                     class="w-full max-h-96 object-cover rounded-lg shadow-lg">
             </div>

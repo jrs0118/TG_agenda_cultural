@@ -184,7 +184,7 @@
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden card-hover">
                     
                     @if($evento->imagen)
-                        <img src="{{ Storage::url($evento->imagen) }}" 
+                        <img src="{{ asset('storage/' . $evento->imagen) }}"
                              alt="{{ $evento->nombre_evento }}"
                              class="w-full h-56 object-cover">
                     @else

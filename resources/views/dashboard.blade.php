@@ -51,7 +51,7 @@
             </div>
 
             <!-- Estadísticas de los módulos principales -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                 <!-- M01 - Eventos -->
                 <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition border-l-4 border-blue-500">
                     <div class="flex justify-between items-start">
@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 
-                <!-- M03 - Ubicaciones (solo estadística) -->
+                <!-- M03 - Ubicaciones -->
                 <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition border-l-4 border-green-500">
                     <div class="flex justify-between items-start">
                         <div>
@@ -90,6 +90,19 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- M05 - Reportes ESTADÍSTICA -->
+                <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition border-l-4 border-yellow-500">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm text-gray-600">Reportes Generados</p>
+                            <p class="text-3xl font-bold text-yellow-600">{{ \App\Models\Reporte::count() }}</p>
+                        </div>
+                        <div class="bg-yellow-100 p-3 rounded-lg">
+                            <i class="fas fa-chart-bar text-yellow-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Tarjetas de módulos principales -->
@@ -97,7 +110,7 @@
                 <!-- M01 - Gestión de Eventos -->
                 <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition">
                     <div class="bg-blue-600 p-4">
-                        <h2 class="text-xl font-bold text-white">Módulo Gestión de Eventos</h2>
+                        <h2 class="text-xl font-bold text-white">📅 Gestión de Eventos</h2>
                     </div>
                     <div class="p-4">
                         <p class="text-gray-600 text-sm mb-4">Crear, modificar y eliminar eventos culturales</p>
@@ -106,10 +119,10 @@
                                class="flex-1 bg-blue-600 text-white text-center py-2 rounded hover:bg-blue-700 transition text-sm">
                                 <i class="fas fa-plus-circle mr-1"></i>Crear
                             </a>
-                            <a href="{{ route('eventos.index') }}" 
+                           <!-- <a href="{{ route('eventos.index') }}" 
                                class="flex-1 bg-gray-200 text-gray-700 text-center py-2 rounded hover:bg-gray-300 transition text-sm">
                                 <i class="fas fa-list mr-1"></i>Listar
-                            </a>
+                            </a> -->
                         </div>
                     </div>
                 </div>
@@ -117,7 +130,7 @@
                 <!-- M02 - Gestión de Categorías -->
                 <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition">
                     <div class="bg-purple-600 p-4">
-                        <h2 class="text-xl font-bold text-white">Módulo Gestión de Categorías</h2>
+                        <h2 class="text-xl font-bold text-white">🏷️ Gestión de Categorías</h2>
                     </div>
                     <div class="p-4">
                         <p class="text-gray-600 text-sm mb-4">Clasificación de eventos por enfoque artístico</p>
@@ -126,18 +139,18 @@
                                class="flex-1 bg-purple-600 text-white text-center py-2 rounded hover:bg-purple-700 transition text-sm">
                                 <i class="fas fa-plus-circle mr-1"></i>Crear
                             </a>
-                            <a href="{{ route('categorias.index') }}" 
+                           <!--   <a href="{{ route('categorias.index') }}" 
                                class="flex-1 bg-gray-200 text-gray-700 text-center py-2 rounded hover:bg-gray-300 transition text-sm">
                                 <i class="fas fa-list mr-1"></i>Listar
-                            </a>
+                            </a> -->
                         </div>
                     </div>
                 </div>
 
-                <!-- M03 - Gestión de Ubicaciones (SOLO LISTAR) -->
+                <!-- M03 - Gestión de Ubicaciones -->
                 <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition">
                     <div class="bg-green-600 p-4">
-                        <h2 class="text-xl font-bold text-white">Módulo Gestión de Ubicaciones</h2>
+                        <h2 class="text-xl font-bold text-white">📍 Gestión de Ubicaciones</h2>
                     </div>
                     <div class="p-4">
                         <p class="text-gray-600 text-sm mb-4">Visualizar ubicaciones de eventos (se crean automáticamente)</p>
@@ -153,23 +166,33 @@
                     </div>
                 </div>
 
-                <!-- M05 - Reportes (placeholder) -->
-                <div class="bg-white rounded-lg shadow overflow-hidden opacity-75">
+                <!-- M05 - Reportes (ACTIVADO) -->
+                <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition">
                     <div class="bg-yellow-600 p-4">
-                        <h2 class="text-xl font-bold text-white">Módulo Reportes</h2>
+                        <h2 class="text-xl font-bold text-white">📊 Módulo Reportes</h2>
                     </div>
                     <div class="p-4">
-                        <p class="text-gray-600 text-sm mb-4">Informes y estadísticas de eventos (próximamente)</p>
-                        <button disabled class="w-full bg-gray-400 text-white py-2 rounded cursor-not-allowed text-sm">
-                            <i class="fas fa-clock mr-1"></i>PENDIENTE
-                        </button>
+                        <p class="text-gray-600 text-sm mb-4">Genera reportes en Excel con estadísticas y listados de eventos</p>
+                        <div class="flex space-x-2">
+                            <a href="{{ route('reportes.index') }}" 
+                               class="flex-1 bg-yellow-600 text-white text-center py-2 rounded hover:bg-yellow-700 transition text-sm">
+                                <i class="fas fa-chart-bar mr-1"></i>Generar Reportes
+                            </a>
+                            <a href="{{ route('reportes.historial') }}" 
+                               class="flex-1 bg-gray-200 text-gray-700 text-center py-2 rounded hover:bg-gray-300 transition text-sm">
+                                <i class="fas fa-history mr-1"></i>Historial
+                            </a>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-2 text-center">
+                            <i class="fas fa-file-excel"></i> Exporta a Excel con filtros
+                        </p>
                     </div>
                 </div>
 
                 <!-- M07 - Configuración General (placeholder) -->
                 <div class="bg-white rounded-lg shadow overflow-hidden opacity-75">
                     <div class="bg-gray-600 p-4">
-                        <h2 class="text-xl font-bold text-white">Módulo Configuración General</h2>
+                        <h2 class="text-xl font-bold text-white">⚙️ Configuración General</h2>
                     </div>
                     <div class="p-4">
                         <p class="text-gray-600 text-sm mb-4">Ajustes del sistema (próximamente)</p>
@@ -182,7 +205,7 @@
                 <!-- M08 - Seguridad (placeholder) -->
                 <div class="bg-white rounded-lg shadow overflow-hidden opacity-75">
                     <div class="bg-red-600 p-4">
-                        <h2 class="text-xl font-bold text-white">Módulo Seguridad</h2>
+                        <h2 class="text-xl font-bold text-white">🔒 Módulo Seguridad</h2>
                     </div>
                     <div class="p-4">
                         <p class="text-gray-600 text-sm mb-4">Usuarios, Roles y Permisos (próximamente)</p>

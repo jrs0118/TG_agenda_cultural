@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UbicacionController;
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ReporteController;  // ← AGREGAR ESTA LÍNEA
 
 // Página principal (pública)
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -29,7 +30,17 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('ubicaciones', UbicacionController::class);
     
     // Listado de eventos (protegido)
-    Route::get('/eventos', [EventoController::class, 'index'])->name('eventos.index')->middleware('auth');
+    Route::get('/eventos', [EventoController::class, 'index'])->name('eventos.index');
+    
+    // ========== RUTAS DE REPORTES ==========
+    Route::prefix('reportes')->name('reportes.')->group(function () {
+        Route::get('/', [ReporteController::class, 'index'])->name('index');
+        Route::get('/historial', [ReporteController::class, 'historial'])->name('historial');
+        Route::post('/generar-listado', [ReporteController::class, 'generarListado'])->name('generar.listado');
+        Route::post('/generar-resumen', [ReporteController::class, 'generarResumen'])->name('generar.resumen');
+        Route::get('/descargar/{id}', [ReporteController::class, 'descargar'])->name('descargar');
+        Route::delete('/eliminar/{id}', [ReporteController::class, 'eliminar'])->name('eliminar');
+    });
 });
 
 // Dashboard
