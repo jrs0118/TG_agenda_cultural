@@ -7,7 +7,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UbicacionController;
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\CategoriaController;
-use App\Http\Controllers\ReporteController;  // ← AGREGAR ESTA LÍNEA
+use App\Http\Controllers\ReporteController;  
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RolController;
 
 // Página principal (pública)
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -41,6 +43,21 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/descargar/{id}', [ReporteController::class, 'descargar'])->name('descargar');
         Route::delete('/eliminar/{id}', [ReporteController::class, 'eliminar'])->name('eliminar');
     });
+
+        // ========== RUTAS DE SEGURIDAD ==========
+        Route::prefix('seguridad')->name('seguridad.')->group(function () {
+            // Gestión de usuarios (gestores culturales)
+            Route::get('/', [UserController::class, 'index'])->name('index');
+            Route::get('/create', [UserController::class, 'create'])->name('create');
+            Route::post('/', [UserController::class, 'store'])->name('store');
+            Route::get('/{usuario}/edit', [UserController::class, 'edit'])->name('edit');
+            Route::put('/{usuario}', [UserController::class, 'update'])->name('update');
+            Route::delete('/{usuario}', [UserController::class, 'destroy'])->name('destroy');
+        });
+
+        // Ruta para roles (usando la vista existente en rol/index.blade.php)
+        Route::resource('rol', RolController::class);
+
 });
 
 // Dashboard
@@ -48,7 +65,7 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-// Rutas de settings (las que ya tienes)
+// Rutas de settings
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
   

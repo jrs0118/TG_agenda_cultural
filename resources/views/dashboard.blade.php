@@ -189,30 +189,46 @@
                     </div>
                 </div>
 
-                <!-- M07 - Configuración General (placeholder) -->
-                <div class="bg-white rounded-lg shadow overflow-hidden opacity-75">
+                <!-- M07 - Configuración General (ACTIVADO o PLACEHOLDER) -->
+                <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition">
                     <div class="bg-gray-600 p-4">
                         <h2 class="text-xl font-bold text-white">⚙️ Configuración General</h2>
                     </div>
                     <div class="p-4">
-                        <p class="text-gray-600 text-sm mb-4">Ajustes del sistema (próximamente)</p>
-                        <button disabled class="w-full bg-gray-400 text-white py-2 rounded cursor-not-allowed text-sm">
-                            <i class="fas fa-clock mr-1"></i>PENDIENTE
-                        </button>
+                        <p class="text-gray-600 text-sm mb-4">Configura tu perfil y ajustes del sistema</p>
+                        <div class="flex space-x-2">
+                            <a href="{{ route('profile.edit') }}" 
+                            class="flex-1 bg-gray-600 text-white text-center py-2 rounded hover:bg-gray-700 transition text-sm">
+                                <i class="fas fa-user-circle mr-1"></i>Mi Perfil
+                            </a>
+                            <button disabled class="flex-1 bg-gray-300 text-gray-500 text-center py-2 rounded cursor-not-allowed text-sm">
+                                <i class="fas fa-cog mr-1"></i>Ajustes
+                            </button>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-2 text-center">
+                            <i class="fas fa-user-edit"></i> Edita tu información personal
+                        </p>
                     </div>
                 </div>
 
-                <!-- M08 - Seguridad (placeholder) -->
-                <div class="bg-white rounded-lg shadow overflow-hidden opacity-75">
-                    <div class="bg-red-600 p-4">
-                        <h2 class="text-xl font-bold text-white">🔒 Módulo Seguridad</h2>
+            <!-- M08 - Seguridad (ACTIVADO) -->
+            <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition">
+                <div class="bg-red-600 p-4">
+                    <h2 class="text-xl font-bold text-white">🔒 Módulo Seguridad</h2>
+                </div>
+                <div class="p-4">
+                    <p class="text-gray-600 text-sm mb-4">Gestión de usuarios y roles del sistema</p>
+                    <div class="flex space-x-2">
+                        <a href="{{ route('seguridad.index') }}" class="flex-1 bg-red-600 text-white text-center py-2 rounded hover:bg-red-700 transition text-sm">
+                            <i class="fas fa-users mr-1"></i>Usuarios
+                        </a>
+                        <a href="{{ route('rol.index') }}" class="flex-1 bg-gray-200 text-gray-700 text-center py-2 rounded hover:bg-gray-300 transition text-sm">
+                            <i class="fas fa-key mr-1"></i>Roles
+                        </a>
                     </div>
-                    <div class="p-4">
-                        <p class="text-gray-600 text-sm mb-4">Usuarios, Roles y Permisos (próximamente)</p>
-                        <button disabled class="w-full bg-gray-400 text-white py-2 rounded cursor-not-allowed text-sm">
-                            <i class="fas fa-clock mr-1"></i>PENDIENTE
-                        </button>
-                    </div>
+                    <p class="text-xs text-gray-400 mt-2 text-center">
+                        <i class="fas fa-shield-alt"></i> Administra gestores y permisos
+                    </p>
                 </div>
             </div>
 
