@@ -5,36 +5,53 @@
         <header class="bg-white shadow-sm sticky top-0 z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <div class="flex justify-between items-center">
-                    <!-- Logo y título -->
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-[#0033A0] rounded-lg flex items-center justify-center">
-                            <i class="fas fa-calendar-alt text-white"></i>
-                        </div>
+                    <!-- Logo y título con ícono -->
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-calendar-alt text-2xl text-[#0033A0]"></i>
                         <h1 class="text-xl font-bold text-gray-900">Agenda Cultural - Administración</h1>
                     </div>
 
-                    <!-- Perfil de usuario en la parte superior -->
-                    <div class="flex items-center space-x-4">
-                        <div class="text-right">
-                            <p class="text-sm text-gray-600">Bienvenido,</p>
-                            <p class="font-semibold">{{ Auth::user()->name ?? 'Usuario' }}</p>
-                            <p class="text-xs text-gray-500">{{ Auth::user()->email ?? '' }}</p>
-                        </div>
-                        
-                        <!-- Botón cerrar sesión -->
-                        <form method="POST" action="{{ route('logout') }}" class="inline">
-                            @csrf
-                            <button type="submit" 
-                                    class="text-red-600 hover:text-red-800 p-2 rounded-lg hover:bg-red-50 transition"
-                                    title="Cerrar sesión">
-                                <i class="fas fa-sign-out-alt text-xl"></i>
+                    <!-- Perfil de usuario con menú desplegable -->
+                    <div class="flex items-center gap-4">
+                        <div class="relative" x-data="{ open: false }">
+                            <button @click="open = !open" 
+                                    class="flex items-center space-x-2 focus:outline-none">
+                                <div class="text-right">
+                                    <p class="text-sm text-gray-600">Bienvenido,</p>
+                                    <p class="font-semibold">{{ Auth::user()->name ?? 'Usuario' }}</p>
+                                    <p class="text-xs text-gray-500">{{ Auth::user()->email ?? '' }}</p>
+                                </div>
+                                <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
                             </button>
-                        </form>
-                        
+                            
+                            <!-- Menú desplegable -->
+                            <div x-show="open" 
+                                @click.away="open = false"
+                                class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50"
+                                x-cloak>
+                                <div class="py-1">
+                                    <a href="{{ route('configuracion.index') }}" 
+                                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">
+                                        <i class="fas fa-user-circle w-5 text-[#0033A0]"></i>
+                                        <span class="ml-2">Mi Perfil</span>
+                                    </a>
+                                    <div class="border-t border-gray-200 my-1"></div>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" 
+                                                class="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100 transition">
+                                            <i class="fas fa-sign-out-alt w-5"></i>
+                                            <span class="ml-2">Cerrar sesión</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Enlace al sitio público -->
                         <a href="{{ route('home') }}" 
-                           class="text-gray-400 hover:text-blue-600 transition p-2"
-                           title="Ver sitio web">
+                        class="text-gray-400 hover:text-blue-600 transition p-2"
+                        title="Ver sitio web">
                             <i class="fas fa-external-link-alt text-xl"></i>
                         </a>
                     </div>
@@ -47,12 +64,10 @@
             <!-- Header de bienvenida -->
             <div class="mb-8">
                 <h1 class="text-3xl font-bold text-gray-900">Panel de Administración</h1>
-                <p class="text-gray-600 mt-1">Gestiona los módulos del sistema</p>
             </div>
 
             <!-- Estadísticas de los módulos principales -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                <!-- M01 - Eventos -->
                 <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition border-l-4 border-blue-500">
                     <div class="flex justify-between items-start">
                         <div>
@@ -65,7 +80,6 @@
                     </div>
                 </div>
                 
-                <!-- M02 - Categorías -->
                 <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition border-l-4 border-purple-500">
                     <div class="flex justify-between items-start">
                         <div>
@@ -78,7 +92,6 @@
                     </div>
                 </div>
                 
-                <!-- M03 - Ubicaciones -->
                 <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition border-l-4 border-green-500">
                     <div class="flex justify-between items-start">
                         <div>
@@ -91,7 +104,6 @@
                     </div>
                 </div>
 
-                <!-- M05 - Reportes ESTADÍSTICA -->
                 <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition border-l-4 border-yellow-500">
                     <div class="flex justify-between items-start">
                         <div>
@@ -114,16 +126,10 @@
                     </div>
                     <div class="p-4">
                         <p class="text-gray-600 text-sm mb-4">Crear, modificar y eliminar eventos culturales</p>
-                        <div class="flex space-x-2">
-                            <a href="{{ route('eventos.create') }}" 
-                               class="flex-1 bg-blue-600 text-white text-center py-2 rounded hover:bg-blue-700 transition text-sm">
-                                <i class="fas fa-plus-circle mr-1"></i>Crear
-                            </a>
-                           <!-- <a href="{{ route('eventos.index') }}" 
-                               class="flex-1 bg-gray-200 text-gray-700 text-center py-2 rounded hover:bg-gray-300 transition text-sm">
-                                <i class="fas fa-list mr-1"></i>Listar
-                            </a> -->
-                        </div>
+                        <a href="{{ route('eventos.create') }}" 
+                           class="block w-full bg-blue-600 text-white text-center py-2 rounded hover:bg-blue-700 transition text-sm">
+                            <i class="fas fa-plus-circle mr-1"></i>Crear Evento
+                        </a>
                     </div>
                 </div>
 
@@ -134,16 +140,10 @@
                     </div>
                     <div class="p-4">
                         <p class="text-gray-600 text-sm mb-4">Clasificación de eventos por enfoque artístico</p>
-                        <div class="flex space-x-2">
-                            <a href="{{ route('categorias.create') }}" 
-                               class="flex-1 bg-purple-600 text-white text-center py-2 rounded hover:bg-purple-700 transition text-sm">
-                                <i class="fas fa-plus-circle mr-1"></i>Crear
-                            </a>
-                           <!--   <a href="{{ route('categorias.index') }}" 
-                               class="flex-1 bg-gray-200 text-gray-700 text-center py-2 rounded hover:bg-gray-300 transition text-sm">
-                                <i class="fas fa-list mr-1"></i>Listar
-                            </a> -->
-                        </div>
+                        <a href="{{ route('categorias.create') }}" 
+                           class="block w-full bg-purple-600 text-white text-center py-2 rounded hover:bg-purple-700 transition text-sm">
+                            <i class="fas fa-plus-circle mr-1"></i>Crear Categoría
+                        </a>
                     </div>
                 </div>
 
@@ -154,19 +154,14 @@
                     </div>
                     <div class="p-4">
                         <p class="text-gray-600 text-sm mb-4">Visualizar ubicaciones de eventos (se crean automáticamente)</p>
-                        <div class="flex space-x-2">
-                            <a href="{{ route('ubicaciones.index') }}" 
-                               class="w-full bg-green-600 text-white text-center py-2 rounded hover:bg-green-700 transition text-sm">
-                                <i class="fas fa-list mr-1"></i>Ver todas las ubicaciones
-                            </a>
-                        </div>
-                        <p class="text-xs text-gray-400 mt-2 text-center">
-                            <i class="fas fa-info-circle"></i> Las ubicaciones se crean al crear un evento
-                        </p>
+                        <a href="{{ route('ubicaciones.index') }}" 
+                           class="block w-full bg-green-600 text-white text-center py-2 rounded hover:bg-green-700 transition text-sm">
+                            <i class="fas fa-list mr-1"></i>Ver todas las ubicaciones
+                        </a>
                     </div>
                 </div>
 
-                <!-- M05 - Reportes (ACTIVADO) -->
+                <!-- M05 - Reportes -->
                 <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition">
                     <div class="bg-yellow-600 p-4">
                         <h2 class="text-xl font-bold text-white">📊 Módulo Reportes</h2>
@@ -176,59 +171,48 @@
                         <div class="flex space-x-2">
                             <a href="{{ route('reportes.index') }}" 
                                class="flex-1 bg-yellow-600 text-white text-center py-2 rounded hover:bg-yellow-700 transition text-sm">
-                                <i class="fas fa-chart-bar mr-1"></i>Generar Reportes
+                                <i class="fas fa-chart-bar mr-1"></i>Generar
                             </a>
                             <a href="{{ route('reportes.historial') }}" 
                                class="flex-1 bg-gray-200 text-gray-700 text-center py-2 rounded hover:bg-gray-300 transition text-sm">
                                 <i class="fas fa-history mr-1"></i>Historial
                             </a>
                         </div>
-                        <p class="text-xs text-gray-400 mt-2 text-center">
-                            <i class="fas fa-file-excel"></i> Exporta a Excel con filtros
-                        </p>
                     </div>
                 </div>
 
-                <!-- M07 - Configuración General (ACTIVADO o PLACEHOLDER) -->
+                <!-- M07 - Configuración General -->
                 <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition">
                     <div class="bg-gray-600 p-4">
                         <h2 class="text-xl font-bold text-white">⚙️ Configuración General</h2>
                     </div>
                     <div class="p-4">
-                        <p class="text-gray-600 text-sm mb-4">Configura tu perfil y ajustes del sistema</p>
-                        <div class="flex space-x-2">
-                            <a href="{{ route('profile.edit') }}" 
-                            class="flex-1 bg-gray-600 text-white text-center py-2 rounded hover:bg-gray-700 transition text-sm">
-                                <i class="fas fa-user-circle mr-1"></i>Mi Perfil
-                            </a>
-                            <button disabled class="flex-1 bg-gray-300 text-gray-500 text-center py-2 rounded cursor-not-allowed text-sm">
-                                <i class="fas fa-cog mr-1"></i>Ajustes
-                            </button>
-                        </div>
-                        <p class="text-xs text-gray-400 mt-2 text-center">
-                            <i class="fas fa-user-edit"></i> Edita tu información personal
-                        </p>
+                        <p class="text-gray-600 text-sm mb-4">Configura tu perfil y preferencias</p>
+                        <a href="{{ route('configuracion.index') }}" 
+                           class="block w-full bg-gray-600 text-white text-center py-2 rounded hover:bg-gray-700 transition text-sm">
+                            <i class="fas fa-user-circle mr-1"></i>Mi Perfil
+                        </a>
                     </div>
                 </div>
 
-            <!-- M08 - Seguridad (ACTIVADO) -->
-            <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition">
-                <div class="bg-red-600 p-4">
-                    <h2 class="text-xl font-bold text-white">🔒 Módulo Seguridad</h2>
-                </div>
-                <div class="p-4">
-                    <p class="text-gray-600 text-sm mb-4">Gestión de usuarios y roles del sistema</p>
-                    <div class="flex space-x-2">
-                        <a href="{{ route('seguridad.index') }}" class="flex-1 bg-red-600 text-white text-center py-2 rounded hover:bg-red-700 transition text-sm">
-                            <i class="fas fa-users mr-1"></i>Usuarios
-                        </a>
-                        <a href="{{ route('rol.index') }}" class="flex-1 bg-gray-200 text-gray-700 text-center py-2 rounded hover:bg-gray-300 transition text-sm">
-                            <i class="fas fa-key mr-1"></i>Roles
-                        </a>
+                <!-- M08 - Seguridad -->
+                <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition">
+                    <div class="bg-red-600 p-4">
+                        <h2 class="text-xl font-bold text-white">🔒 Módulo Seguridad</h2>
                     </div>
-                    <p class="text-xs text-gray-400 mt-2 text-center">
-                        <i class="fas fa-shield-alt"></i> Administra gestores y permisos
-                    </p>
+                    <div class="p-4">
+                        <p class="text-gray-600 text-sm mb-4">Gestión de usuarios y roles del sistema</p>
+                        <div class="flex space-x-2">
+                            <a href="{{ route('seguridad.index') }}" 
+                               class="flex-1 bg-red-600 text-white text-center py-2 rounded hover:bg-red-700 transition text-sm">
+                                <i class="fas fa-users mr-1"></i>Usuarios
+                            </a>
+                            <a href="{{ route('rol.index') }}" 
+                               class="flex-1 bg-gray-200 text-gray-700 text-center py-2 rounded hover:bg-gray-300 transition text-sm">
+                                <i class="fas fa-key mr-1"></i>Roles
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
 

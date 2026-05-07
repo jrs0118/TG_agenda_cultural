@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ReporteController;  
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolController;
+use App\Http\Controllers\ConfiguracionController;
 
 // Página principal (pública)
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -45,18 +46,25 @@ Route::middleware(['auth'])->group(function () {
     });
 
         // ========== RUTAS DE SEGURIDAD ==========
-        Route::prefix('seguridad')->name('seguridad.')->group(function () {
+    Route::prefix('seguridad')->name('seguridad.')->group(function () {
             // Gestión de usuarios (gestores culturales)
-            Route::get('/', [UserController::class, 'index'])->name('index');
-            Route::get('/create', [UserController::class, 'create'])->name('create');
-            Route::post('/', [UserController::class, 'store'])->name('store');
-            Route::get('/{usuario}/edit', [UserController::class, 'edit'])->name('edit');
-            Route::put('/{usuario}', [UserController::class, 'update'])->name('update');
-            Route::delete('/{usuario}', [UserController::class, 'destroy'])->name('destroy');
-        });
+         Route::get('/', [UserController::class, 'index'])->name('index');
+         Route::get('/create', [UserController::class, 'create'])->name('create');
+         Route::post('/', [UserController::class, 'store'])->name('store');
+         Route::get('/{usuario}/edit', [UserController::class, 'edit'])->name('edit');
+         Route::put('/{usuario}', [UserController::class, 'update'])->name('update');
+         Route::delete('/{usuario}', [UserController::class, 'destroy'])->name('destroy');
+       
+         });
 
         // Ruta para roles (usando la vista existente en rol/index.blade.php)
         Route::resource('rol', RolController::class);
+
+        Route::prefix('configuracion')->name('configuracion.')->group(function () {
+            Route::get('/', [ConfiguracionController::class, 'index'])->name('index');
+            Route::put('/perfil', [ConfiguracionController::class, 'updatePerfil'])->name('perfil.update');
+            Route::put('/password', [ConfiguracionController::class, 'updatePassword'])->name('password.update');
+        });
 
 });
 
