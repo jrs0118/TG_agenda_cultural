@@ -118,18 +118,18 @@
                     <i class="fas fa-sign-in-alt"></i>
                     Iniciar sesión
                 </button>
-
-                <!-- Línea divisoria -->
+<!-- 
+                 Línea divisoria 
                 <div class="relative my-8">
                     <div class="absolute inset-0 flex items-center">
                         <div class="w-full border-t border-gray-200"></div>
                     </div>
                     <div class="relative flex justify-center text-sm">
-                        <span class="px-4 bg-white text-gray-500">o</span>
+                        <span class="px-4 bg-white text-gray-500"></span>
                     </div>
-                </div>
+                </div> -->
 
-                <!-- Enlace a registro -->
+                <!-- Enlace a registro
                 @if (Route::has('register'))
                     <p class="text-center text-gray-600">
                         ¿No tienes una cuenta?
@@ -137,7 +137,7 @@
                             Regístrate aquí
                         </a>
                     </p>
-                @endif
+                @endif -->
             </form>
         </div>
 

@@ -17,10 +17,10 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class ReporteController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    //  public function __construct()
+    //  {
+    //      $this->middleware('auth');
+    //  }
 
     public function index()
     {

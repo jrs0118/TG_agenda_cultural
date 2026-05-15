@@ -69,11 +69,11 @@
                                 <i class="fas fa-sign-in-alt"></i>
                                 <span>Ingresar</span>
                             </a>
-                            @if (Route::has('register'))
+                            <!-- @if (Route::has('register'))
                                 <a href="{{ route('register') }}" 
                                    class="bg-gray-100 text-gray-700 px-5 py-2.5 rounded-lg hover:bg-gray-200 transition border border-gray-200">
                                     Registrarse
-                                </a>
+                                </a> -->
                             @endif
                         @endauth
                     </div>
@@ -224,11 +224,6 @@
                             </div>
                         </div>
                         
-                        <!-- Botón -->
-                        <a href="{{ route('eventos.show', $evento->id_evento) }}" 
-                           class="block text-center border-2 border-[#0033A0] text-[#0033A0] py-3 rounded-xl hover:bg-[#0033A0] hover:text-white transition-all font-medium">
-                            Ver detalles
-                        </a>
                     </div>
                 </div>
             @empty
