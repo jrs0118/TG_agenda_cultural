@@ -68,53 +68,56 @@
 
             <!-- Estadísticas de los módulos principales -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition border-l-4 border-blue-500">
-                    <div class="flex justify-between items-start">
+                <!-- Total Eventos -->
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                    <div class="flex justify-between items-center">
                         <div>
-                            <p class="text-sm text-gray-600">Total Eventos</p>
+                            <p class="text-sm text-gray-500 mb-1">Total Eventos</p>
                             <p class="text-3xl font-bold text-blue-600">{{ \App\Models\Evento::count() }}</p>
                         </div>
-                        <div class="bg-blue-100 p-3 rounded-lg">
-                            <i class="fas fa-calendar-alt text-blue-600 text-xl"></i>
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                            <span class="text-2xl">📅</span>
                         </div>
                     </div>
                 </div>
                 
-                <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition border-l-4 border-purple-500">
-                    <div class="flex justify-between items-start">
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                    <div class="flex justify-between items-center">
                         <div>
-                            <p class="text-sm text-gray-600">Total Categorías</p>
+                            <p class="text-sm text-gray-500 mb-1">Total Categorías</p>
                             <p class="text-3xl font-bold text-purple-600">{{ \App\Models\Categoria::count() }}</p>
                         </div>
-                        <div class="bg-purple-100 p-3 rounded-lg">
-                            <i class="fas fa-tags text-purple-600 text-xl"></i>
+                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                            <span class="text-2xl">🏷️</span>
                         </div>
                     </div>
                 </div>
                 
-                <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition border-l-4 border-green-500">
-                    <div class="flex justify-between items-start">
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                    <div class="flex justify-between items-center">
                         <div>
-                            <p class="text-sm text-gray-600">Total Ubicaciones</p>
+                            <p class="text-sm text-gray-500 mb-1">Total Ubicaciones</p>
                             <p class="text-3xl font-bold text-green-600">{{ \App\Models\Ubicacion::count() }}</p>
                         </div>
-                        <div class="bg-green-100 p-3 rounded-lg">
-                            <i class="fas fa-map-marked-alt text-green-600 text-xl"></i>
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                            <span class="text-2xl">📍</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition border-l-4 border-yellow-500">
-                    <div class="flex justify-between items-start">
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                    <div class="flex justify-between items-center">
                         <div>
-                            <p class="text-sm text-gray-600">Reportes Generados</p>
+                            <p class="text-sm text-gray-500 mb-1">Reportes Generados</p>
                             <p class="text-3xl font-bold text-yellow-600">{{ \App\Models\Reporte::count() }}</p>
                         </div>
-                        <div class="bg-yellow-100 p-3 rounded-lg">
-                            <i class="fas fa-chart-bar text-yellow-600 text-xl"></i>
+                        <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+                            <span class="text-2xl">📊</span>
                         </div>
                     </div>
                 </div>
+             
+
             </div>
 
             <!-- Tarjetas de módulos principales -->
